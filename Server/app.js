@@ -4,13 +4,15 @@ const app = express();
 import dotenv from 'dotenv';
 dotenv.config("./.env");
 
+import cors from 'cors'
+
 import connectDB from "./src/config/mongo.config.js";
 
 import shortUrlRoute from "./src/routes/shortUrl.route.js"
 import { redirectFromShortUrl } from './src/controllers/shortUrl.controller.js';
 import { errorHandler } from './src/utils/errorHandler.js';
 
-
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 

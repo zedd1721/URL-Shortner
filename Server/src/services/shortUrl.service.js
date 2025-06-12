@@ -6,6 +6,7 @@ export const createShortUrlWithoutUserService =async(url)=>{
     if(!shortUrl){
         throw new Error("Short Url is not generated!!")
     }
+    
     await saveShortUrl(shortUrl, url);
     
     return shortUrl;

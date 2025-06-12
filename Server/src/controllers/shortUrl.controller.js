@@ -3,8 +3,8 @@ import { createShortUrlWithoutUserService } from "../services/shortUrl.service.j
 
 export const createShortUrl = async (req, res, next)=>{
     try {
-        const {url} = req.body;
-        const shortUrl = await createShortUrlWithoutUserService(url);
+        const {originalUrl} = req.body;
+        const shortUrl = await createShortUrlWithoutUserService(originalUrl);
         res.send(process.env.APP_URL + shortUrl)
     } catch (error) {
         next(error)
