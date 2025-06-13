@@ -1,16 +1,25 @@
 import { getorginalUrl } from "../dao/shortUrl.js";
-import { createShortUrlWithoutUserService } from "../services/shortUrl.service.js";
+import { createShortUrlWithoutUserService, createShortUrlWithUserService } from "../services/shortUrl.service.js";
+
 
 export const createShortUrl = async (req, res, next)=>{
     try {
-        const {originalUrl} = req.body;
-        const shortUrl = await createShortUrlWithoutUserService(originalUrl);
+        const {originalUrl, slug} = req.body;
+       let shortUrl;
+       
+        if(req.user){
+            shortUrl = await createShortUrlWithUserService(originalUrl, req.user._id, slug);
+        }else{
+            shortUrl = await createShortUrlWithoutUserService(originalUrl);
+        }
         res.send(process.env.APP_URL + shortUrl)
     } catch (error) {
         next(error)
     }
     
 }
+
+
 
 export const redirectFromShortUrl = async(req, res, next) =>{
     try {

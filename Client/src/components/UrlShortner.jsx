@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import axios from 'axios';
+import { createShortUrl } from "../api/shortUrl.api";
 
 export default function UrlShortner() {
   const [originalUrl, setOriginalUrl] = useState("");
@@ -9,8 +10,7 @@ export default function UrlShortner() {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
 
-  // Replace with your actual backend endpoint
-  const BACKEND_API = "http://localhost:5000";
+  
 
   const handleShorten = async (e) => {
     e.preventDefault();
@@ -29,12 +29,12 @@ export default function UrlShortner() {
     try {
       
       
-      const {data} = await axios.post(`${BACKEND_API}/api/create`, {originalUrl});
+      const url = await createShortUrl(originalUrl) //api Call
       
-      if (data) {
-        setShortUrl(data);
+      if (url) {
+        setShortUrl(url);
       } else {
-        setError(data.error || "Failed to shorten link.");
+        setError("Failed to shorten link.");
       }
     } catch (err) {
       setError("Failed to connect to server.");
