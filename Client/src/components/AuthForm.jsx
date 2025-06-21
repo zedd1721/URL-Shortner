@@ -20,7 +20,6 @@ export default function AuthForm({ type, onSubmit }) {
       setError("Passwords do not match.");
       return;
     }
-    // You can add more validation here
     onSubmit(form);
   }
 

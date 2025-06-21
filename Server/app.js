@@ -14,7 +14,10 @@ import { redirectFromShortUrl } from './src/controllers/shortUrl.controller.js';
 import { errorHandler } from './src/utils/errorHandler.js';
 import { attachUser } from './src/utils/attachUser.js';
 
-app.use(cors())
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+}))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
