@@ -1,7 +1,6 @@
-import React from "react";
 import UrlShortner from "../components/UrlShortner";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import heroSvg from "../assets/heroSVG.svg"
 
 export default function Home() {

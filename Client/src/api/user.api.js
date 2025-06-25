@@ -1,13 +1,11 @@
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 
-const BACKEND_API = "http://localhost:5000";
 
 export const loginUser = async (email, password) => {
   try {
-    const { data } = await axios.post(
-      `${BACKEND_API}/api/auth/login`,
-      { email, password },
-      { withCredentials: true }
+    const { data } = await axiosInstance.post('/api/auth/login',
+      { email, password }
+
     );
     return data;
   } catch (error) {
@@ -20,10 +18,9 @@ export const loginUser = async (email, password) => {
 
 export const registerUser = async (name, email, password) => {
   try {
-    const { data } = await axios.post(
-      `${BACKEND_API}/api/auth/register`,
-      { name, email, password },
-      { withCredentials: true }
+    const { data } = await axiosInstance.post(
+      `/api/auth/register`,
+      { name, email, password }
     );
     return data;
   } catch (error) {
@@ -37,6 +34,11 @@ export const registerUser = async (name, email, password) => {
 };
 
 export const logoutUser = async () => {
-  const { data } = await axios.get(`${BACKEND_API}/api/auth/logout`);
+  const { data } = await axiosInstance.get(`/api/auth/logout`);
   return data;
 };
+
+export const getUser = async() =>{
+  const {data} = await axiosInstance.get('/api/auth/me');
+  return data;
+}

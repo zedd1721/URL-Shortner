@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import { loginUser } from "../api/user.api.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../store/slice/authSlice.js";
+
 
 export default function SignIn() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
+
+  const auth = useSelector((state)=> state.auth);
+  const dispatch = useDispatch();
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -20,9 +27,10 @@ export default function SignIn() {
     setSuccess(false);
     try {
       const data = await loginUser(form.email, form.password);
+      dispatch(login(data.user))
+      navigate({to: '/dashboard'})
       setForm({ email: "", password: "" });
       setSuccess(true);
-      // Optionally: redirect or set auth token here
     } catch (e) {
       setError(e.message); // Show backend message!
       setForm({ ...form, password: "" });

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { registerUser } from "../api/user.api.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useDispatch } from 'react-redux';
+import { login } from "../store/slice/authSlice.js";
 
 export default function SignUp() {
   const [form, setForm] = useState({
@@ -12,6 +14,8 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -29,6 +33,11 @@ export default function SignUp() {
     setSuccess(false);
     try {
       const data = await registerUser(form.name, form.email, form.password);
+
+      dispatch(login(data.user))
+      navigate({to:"/dashboard"})
+
+      
       setForm({
         name: "",
         email: "",

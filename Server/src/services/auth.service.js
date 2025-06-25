@@ -1,4 +1,4 @@
-import { createUser, findUserbyEmail } from "../dao/user.dao.js";
+import { createUser, findUserbyEmail, findUserByEmailByPassword } from "../dao/user.dao.js";
 import { ConflictError, NotFoundError } from "../utils/errorHandler.js";
 import { signToken } from "../utils/helper.js";
 
@@ -17,16 +17,13 @@ export const registerUser =  async (name, email, password) => {
 
 export const loginUser =async(email, password)=>{
     
-    
-    const user = await findUserbyEmail(email);
-    
+    const user = await findUserByEmailByPassword(email);
     
     if(!user){
         throw new NotFoundError("User not Found")
     }
-    if(user.password !== password) {
-        throw new Error("Wrong credentials")
-    }
+    const isPasswordValid = await user.comparePassword(password)
+    if(!isPasswordValid) throw new Error("Invalid email or password")
     const token = signToken({id: user._id})
     return {token, user};
 }
