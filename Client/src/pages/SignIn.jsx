@@ -6,6 +6,7 @@ import { login } from "../store/slice/authSlice.js";
 
 
 export default function SignIn() {
+  const [copied, setCopied] = useState("");
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -14,6 +15,17 @@ export default function SignIn() {
 
   const auth = useSelector((state)=> state.auth);
   const dispatch = useDispatch();
+
+
+   const sampleEmail = "demo@test.com";
+  const samplePassword = "demo123";
+
+  function handleCopy(value, type) {
+    navigator.clipboard.writeText(value);
+    setCopied(type);
+    setTimeout(() => setCopied(""), 1500);
+  }
+
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -87,6 +99,41 @@ export default function SignIn() {
         >
           {loading ? "Logging in..." : "Login"}
         </button>
+
+        <div className="mt-4 p-3 rounded-xl border border-indigo-100 bg-indigo-50 text-sm text-gray-700 shadow flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold">Sample Email:</span>
+            <span className="bg-white rounded px-2 py-1">{sampleEmail}</span>
+            <button
+              type="button"
+              onClick={() => handleCopy(sampleEmail, "email")}
+              className={`ml-2 px-2 py-1 rounded text-xs ${
+                copied === "email"
+                  ? "bg-green-500 text-white"
+                  : "bg-indigo-200 text-indigo-700 hover:bg-indigo-300"
+              } transition`}
+            >
+              {copied === "email" ? "Copied!" : "Copy"}
+            </button>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="font-semibold">Password:</span>
+            <span className="bg-white rounded px-2 py-1">{samplePassword}</span>
+            <button
+              type="button"
+              onClick={() => handleCopy(samplePassword, "password")}
+              className={`ml-2 px-2 py-1 rounded text-xs ${
+                copied === "password"
+                  ? "bg-green-500 text-white"
+                  : "bg-indigo-200 text-indigo-700 hover:bg-indigo-300"
+              } transition`}
+            >
+              {copied === "password" ? "Copied!" : "Copy"}
+            </button>
+          </div>
+        </div>
+
+        
       </form>
       {success && (
         <div className="text-green-600 mt-4 font-semibold">
