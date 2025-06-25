@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import axios from 'axios';
+import { useSelector } from "react-redux";
+import { motion, setStyle } from "framer-motion";
 import { createShortUrl } from "../api/shortUrl.api";
 
 export default function UrlShortner() {
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+
   const [originalUrl, setOriginalUrl] = useState("");
+  const [slug, setSlug] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
-
-  
 
   const handleShorten = async (e) => {
     e.preventDefault();
@@ -27,17 +28,24 @@ export default function UrlShortner() {
     }
 
     try {
-      
-      
-      const url = await createShortUrl(originalUrl) //api Call
-      
-      if (url) {
-        setShortUrl(url);
+      // If authenticated, send customUrl too
+      const url = isAuthenticated
+        ? await createShortUrl(originalUrl, slug)
+        : await createShortUrl(originalUrl);
+
+      if (url && url.shortUrl) {
+        setShortUrl(url.shortUrl); // Assuming API returns {shortUrl: "..."}
+      } else if (typeof url === "string") {
+        setShortUrl(url); // fallback for old API
       } else {
         setError("Failed to shorten link.");
       }
     } catch (err) {
-      setError("Failed to connect to server.");
+      setError(
+        err.response?.data?.message ||
+        err.message ||
+        "Failed to connect to server."
+      );
     }
     setLoading(false);
   };
@@ -58,7 +66,10 @@ export default function UrlShortner() {
       >
         <h1 className="text-3xl font-extrabold mb-2 text-indigo-700">URL Shortener</h1>
         <p className="text-gray-500 mb-6 text-center">
-          Paste your long URL below and get a short, easy-to-share link. No login required!
+          Paste your long URL below and get a short, easy-to-share link.<br />
+          {isAuthenticated
+            ? "You can also choose a custom alias!"
+            : "No login required!"}
         </p>
         <form onSubmit={handleShorten} className="w-full flex flex-col gap-4">
           <input
@@ -66,10 +77,22 @@ export default function UrlShortner() {
             type="url"
             placeholder="Paste your long URL here..."
             value={originalUrl}
-            onChange={(e) => setOriginalUrl(e.target.value)}
+            onChange={e => setOriginalUrl(e.target.value)}
             required
             disabled={loading}
           />
+          {/* Show custom url input only if user is authenticated */}
+          {isAuthenticated && (
+            <input
+              className="rounded-xl px-4 py-3 border-2 border-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all text-lg"
+              type="text"
+              placeholder="Custom URL (optional, e.g. my-awesome-link)"
+              value={slug}
+              onChange={e => setSlug(e.target.value)}
+              disabled={loading}
+              maxLength={32}
+            />
+          )}
           <button
             className={`w-full py-3 rounded-xl text-lg font-semibold text-white bg-gradient-to-r from-indigo-500 to-purple-500 shadow hover:scale-105 transition-transform duration-150
               ${loading ? "opacity-70 cursor-not-allowed" : "hover:shadow-xl"}

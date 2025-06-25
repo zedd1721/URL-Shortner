@@ -6,6 +6,6 @@ import { checkAuth } from "../utils/helper";
 export const dashboardRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: '/dashboard',
+    beforeLoad: checkAuth,
     component: Dashboard,
-    beforeLoad: checkAuth
 })

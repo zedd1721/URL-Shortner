@@ -9,7 +9,7 @@ import store from "./store/store.js";
 const queryClient = new QueryClient();
 const router = createRouter({
   routeTree,
-  context: {
+  context: { //ye pass karega har ek route k liye
     queryClient,
     store,
   },
@@ -17,8 +17,8 @@ const router = createRouter({
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>    
+      <RouterProvider router={router} />          
     </QueryClientProvider>
   </Provider>
 );

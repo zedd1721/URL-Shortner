@@ -34,7 +34,7 @@ export const registerUser = async (name, email, password) => {
 };
 
 export const logoutUser = async () => {
-  const { data } = await axiosInstance.get(`/api/auth/logout`);
+  const { data } = await axiosInstance.post(`/api/auth/logout`);
   return data;
 };
 
@@ -42,3 +42,15 @@ export const getUser = async() =>{
   const {data} = await axiosInstance.get('/api/auth/me');
   return data;
 }
+
+export const getUserUrls = async () => {
+  try {
+    const { data } = await axiosInstance.get("/api/user/urls"); 
+    return data.urls;
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message || "Failed to fetch URLs");
+  }
+};
