@@ -246,7 +246,7 @@ export default function UrlShortenerWithList() {
                               rel="noopener noreferrer"
                               className="text-blue-600 hover:text-blue-900 hover:underline break-all"
                             >
-                              {`localhost:5000/${url.short_url}`}
+                              {`url-shortner-t4q8.onrender.com/${url.short_url}`}
                             </a>
                           </td>
                           <td className="px-6 py-4 text-center">
