@@ -15,6 +15,8 @@ import { redirectFromShortUrl } from './src/controllers/shortUrl.controller.js';
 import { errorHandler } from './src/utils/errorHandler.js';
 import { attachUser } from './src/utils/attachUser.js';
 
+const port = process.env.PORT || 5000
+
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true,
@@ -31,7 +33,7 @@ app.get('/:id', redirectFromShortUrl)
 
 
 app.use(errorHandler)
-app.listen(5000, ()=>{
+app.listen(port, ()=>{
     connectDB();
-    console.log("Server is running on port 5000");
+    console.log(`Server is running on ${port}`);
 })
