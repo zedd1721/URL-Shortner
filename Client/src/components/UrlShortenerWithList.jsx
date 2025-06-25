@@ -310,7 +310,7 @@ export default function UrlShortenerWithList() {
                           rel="noopener noreferrer"
                           className="block text-blue-600 font-medium break-all"
                         >
-                          {`localhost:5000/${url.short_url}`}
+                          {`url-shortner-t4q8.onrender.com/${url.short_url}`}
                         </a>
                       </div>
                       <div>
