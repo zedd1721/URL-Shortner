@@ -18,7 +18,7 @@ import { attachUser } from './src/utils/attachUser.js';
 const port = process.env.PORT || 5000
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://shortylink-byzain.netlify.app",
     credentials: true,
 }))
 app.use(express.json())
