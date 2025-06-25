@@ -241,7 +241,7 @@ export default function UrlShortenerWithList() {
                           </td>
                           <td className="px-6 py-4">
                             <a
-                              href={`http://localhost:5000/${url.short_url}`}
+                              href={`https://url-shortner-t4q8.onrender.com/${url.short_url}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-blue-600 hover:text-blue-900 hover:underline break-all"
@@ -259,7 +259,7 @@ export default function UrlShortenerWithList() {
                             <button
                               onClick={() =>
                                 handleCopy(
-                                  `http://localhost:5000/${url.short_url}`,
+                                  `https://url-shortner-t4q8.onrender.com/${url.short_url}`,
                                   url._id
                                 )
                               }
@@ -305,7 +305,7 @@ export default function UrlShortenerWithList() {
                           Short URL:
                         </span>
                         <a
-                          href={`http://localhost:5000/${url.short_url}`}
+                          href={`https://url-shortner-t4q8.onrender.com/${url.short_url}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="block text-blue-600 font-medium break-all"
@@ -322,7 +322,7 @@ export default function UrlShortenerWithList() {
                       <button
                         onClick={() =>
                           handleCopy(
-                            `http://localhost:5000/${url.short_url}`,
+                            `https://url-shortner-t4q8.onrender.com/${url.short_url}`,
                             url._id
                           )
                         }
